@@ -1,4 +1,4 @@
-﻿-- ------------------------------------------- --
+-- ------------------------------------------- --
 --   Deadly Boss Mods - Chinese localization   --
 --    by Diablohu<白银之手> @ 二区-轻风之语    --
 --              www.dreamgen.cn                --
@@ -61,6 +61,7 @@ if (GetLocale() == "zhCN") then
 
 	DBM_MOV_DEBUFF_HOLYFIRE	= "([^%s]+)受([^%s]+)神圣之火效果的影响。";
 	DBM_MOV_WARN_HOLYFIRE	= "*** 神圣之火 -> >%s< ***";
+    DBM_MOV_WARN_HOLYFIRE_SOON = "*** Holy Fire soon ***";
 
 	DBM_SBT["Next Repentance"]	= "下一次悔改";
 	DBM_SBT["Repentance"]		= "悔改";

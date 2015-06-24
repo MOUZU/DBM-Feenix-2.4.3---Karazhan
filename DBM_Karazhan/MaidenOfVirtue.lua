@@ -1,7 +1,7 @@
 local Maiden = DBM:NewBossMod("Maiden", DBM_MOV_NAME, DBM_MOV_DESCRIPTION, DBM_KARAZHAN, DBM_KARAZHAN_TAB, 3);
 
-Maiden.Version		= "1.2";
-Maiden.Author		= "Tandanu";
+Maiden.Version		= "1.3";
+Maiden.Author		= "LYQ";
 Maiden.MinVersionToSync = 2.7
 
 Maiden:AddOption("HolyFireWarn", true, DBM_MOV_OPTION_2);
@@ -17,6 +17,7 @@ end);
 
 Maiden:AddBarOption("Repentance")
 Maiden:AddBarOption("Next Repentance")
+Maiden:AddBarOption("Next Holy Fire")
 
 Maiden:RegisterEvents(
 	"CHAT_MSG_MONSTER_YELL",
@@ -27,8 +28,9 @@ Maiden:RegisterCombat("YELL", DBM_MOV_YELL_PULL);
 
 function Maiden:OnCombatStart()
 	self:EndStatusBarTimer("Repentance");
-	self:StartStatusBarTimer(45, "Next Repentance", "Interface\\Icons\\Spell_Holy_PrayerOfHealing");
-	self:ScheduleSelf(40, "RepWarning");
+	self:StartStatusBarTimer(27.5, "Next Repentance", "Interface\\Icons\\Spell_Holy_PrayerOfHealing");
+    self:StartStatusBarTimer(15, "Next Holy Fire", "Interface\\Icons\\Spell_Holy_PrayerOfHealing");
+	self:ScheduleSelf(20, "RepWarning");
 	
 	if self.Options.RangeCheck then
 		DBM_Gui_DistanceFrame_Show();
@@ -44,7 +46,8 @@ end
 function Maiden:OnEvent(event, arg1)
 	if event == "RepWarning" then
 		self:Announce(DBM_MOV_WARN_REP_SOON, 1);
-		
+    elseif event == "HolyFireWarning" then
+		self:Announce(DBM_MOV_WARN_HOLYFIRE_SOON, 1);
 	elseif event == "CHAT_MSG_MONSTER_YELL" then
 		if arg1 and (string.find(arg1, DBM_MOV_YELL_REP_1) or string.find(arg1, DBM_MOV_YELL_REP_2)) then
 			self:SendSync("Rep");
@@ -53,6 +56,7 @@ function Maiden:OnEvent(event, arg1)
 	elseif event == "SPELL_AURA_APPLIED" then
 		if arg1.spellId == 29522 then
 			self:Announce(string.format(DBM_MOV_WARN_HOLYFIRE, tostring(arg1.destName)), 2);
+            self:SendSync("HolyFire");
 		end
 	end
 end
@@ -62,8 +66,11 @@ function Maiden:OnSync(msg)
 		self:Announce(DBM_MOV_WARN_REP, 3);
 		self:EndStatusBarTimer("Next Repentance");
 		self:UnScheduleSelf("RepWarning");
-		self:StartStatusBarTimer(33, "Next Repentance", "Interface\\Icons\\Spell_Holy_PrayerOfHealing");
+		self:StartStatusBarTimer(25, "Next Repentance", "Interface\\Icons\\Spell_Holy_PrayerOfHealing");
 		self:StartStatusBarTimer(12, "Repentance", "Interface\\Icons\\Spell_Holy_PrayerOfHealing");
 		self:ScheduleSelf(29, "RepWarning");
+    elseif msg == "HolyFire" then
+        self:StartStatusBarTimer(8, "Next Holy Fire", "Interface\\Icons\\Spell_Holy_PrayerOfHealing");
+        self:ScheduleSelf(6, "HolyFireWarning");
 	end
 end

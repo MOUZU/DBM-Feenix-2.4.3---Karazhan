@@ -1,4 +1,4 @@
-﻿if (GetLocale() == "zhTW") then
+if (GetLocale() == "zhTW") then
 --Chinese Translate by Nightkiller@日落沼澤(kc10577@巴哈;Azael)
 DBM_KARAZHAN = "卡拉贊"; 
 
@@ -51,6 +51,7 @@ DBM_MOV_WARN_REP_SOON		= "*** 懺悔即將來臨 ***";
 
 DBM_MOV_DEBUFF_HOLYFIRE		= "(.+)受到(.*)神聖之火效果的影響。";
 DBM_MOV_WARN_HOLYFIRE		= "*** >%s< 中了神聖之火，驅散！ ***";
+DBM_MOV_WARN_HOLYFIRE_SOON = "*** Holy Fire soon ***";
 
 DBM_SBT["Next Repentance"] 	= "下一次懺悔";
 DBM_SBT["Repentance"] 		= "懺悔";

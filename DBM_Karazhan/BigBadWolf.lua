@@ -16,6 +16,10 @@ BBW:AddBarOption("Fear")
 BBW:AddBarOption("Red Riding Hood")
 BBW:AddBarOption("Next Red Riding Hood")
 
+function BBW:OnCombatStart()
+    self:StartStatusBarTimer(30, "Next Red Riding Hood", "Interface\\Icons\\INV_Helmet_28");
+end
+
 function BBW:OnEvent(event, arg1)
 	if event == "SPELL_AURA_APPLIED" then
 		if arg1.spellId == 30753 then

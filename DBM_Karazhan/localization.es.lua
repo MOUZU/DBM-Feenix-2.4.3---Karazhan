@@ -44,6 +44,7 @@ DBM_MOV_WARN_REP_SOON	= "*** Arrepentimiento pronto ***";
 
 DBM_MOV_DEBUFF_HOLYFIRE	= "([^%s]+) (%w+) sufre de Fuego sagrado.";
 DBM_MOV_WARN_HOLYFIRE	= "*** Fuego Sagrado en >%s< ***";
+DBM_MOV_WARN_HOLYFIRE_SOON = "*** Holy Fire soon ***";
 
 
 

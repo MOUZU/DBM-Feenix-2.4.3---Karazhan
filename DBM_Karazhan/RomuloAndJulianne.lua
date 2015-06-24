@@ -1,4 +1,4 @@
-﻿local RaJ = DBM:NewBossMod("RomuloAndJulianne", DBM_RJ_NAME, DBM_RJ_DESCRIPTION, DBM_KARAZHAN, DBM_KARAZHAN_TAB, 6);
+local RaJ = DBM:NewBossMod("RomuloAndJulianne", DBM_RJ_NAME, DBM_RJ_DESCRIPTION, DBM_KARAZHAN, DBM_KARAZHAN_TAB, 6);
 --Edit by Nightkiller@日落沼澤(kc10577@巴哈;Azael)
 RaJ.Version			= "1.1";
 RaJ.Author			= "Tandanu";
@@ -9,12 +9,14 @@ RaJ:RegisterEvents(
 	"SPELL_CAST_START"
 );
 
-RaJ:RegisterCombat("COMBAT", 5, DBM_RJ_JULIANNE, DBM_RJ_NAME, {DBM_RJ_ROMULO, DBM_RJ_JULIANNE}, 20);
+--RaJ:RegisterCombat("COMBAT", 5, DBM_RJ_JULIANNE, DBM_RJ_NAME, {DBM_RJ_ROMULO, DBM_RJ_JULIANNE}, 20);
+RaJ:RegisterCombat("YELL",DBM_RJ_TRIGGER)
 
 RaJ:AddOption("WarnHeal", true, DBM_RJ_OPTION_1);
 RaJ:AddOption("PosionWarn", true, DBM_RJ_OPTION_2);
 
 RaJ:AddBarOption("Heal")
+RaJ:AddBarOption("Powerful Attraction on (.*)")
 
 function RaJ:OnEvent(event, arg1)
 	if event == "SPELL_AURA_APPLIED" then
@@ -26,6 +28,8 @@ function RaJ:OnEvent(event, arg1)
 			if target and self.Options.PosionWarn then
 				self:Announce(string.format(DBM_RJ_POISON_WARN, tostring(arg1.destName)), 2);
 			end
+        elseif arg1.spellId == 30889 and arg1.destName then
+            self:StartStatusBarTimer(6, "Powerful Attraction on "..arg1.destName, "Interface\\Icons\\Inv_ValentinePerfumebottle");
 		end
 	elseif event == "CHAT_MSG_MONSTER_YELL" then
 		if arg1 == DBM_RJ_PHASE2_YELL then

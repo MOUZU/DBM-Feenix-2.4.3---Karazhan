@@ -1,7 +1,7 @@
 local Oz = DBM:NewBossMod("Oz", DBM_OZ_NAME, DBM_OZ_DESCRIPTION, DBM_KARAZHAN, DBM_KARAZHAN_TAB, 7);
 
-Oz.Version			= "1.0";
-Oz.Author			= "Tandanu";
+Oz.Version			= "1.1";
+Oz.Author			= "LYQ";
 
 Oz:RegisterEvents(
 	"CHAT_MSG_MONSTER_YELL",
@@ -18,9 +18,8 @@ Oz:AddBarOption("Tinhead")
 Oz:AddBarOption("Tito")
 
 function Oz:OnCombatStart(delay)
-	self:StartStatusBarTimer(14.5 - delay, "Roar", "Interface\\Icons\\Ability_Druid_ChallangingRoar");
-	self:StartStatusBarTimer(24 - delay, "Strawman", "Interface\\Icons\\INV_Helmet_34");
-	self:StartStatusBarTimer(33 - delay, "Tinhead", "Interface\\Icons\\INV_Helmet_02");
+    self:StartStatusBarTimer(12.5 - delay, "Dorothee", "Interface\\Icons\\INV_Helmet_34");
+    self:ScheduleSelf(12.5 - delay,"NextRoar")
 	self:StartStatusBarTimer(47.5 - delay, "Tito", "Interface\\Icons\\Ability_Mount_WhiteDireWolf");
 end
 
@@ -34,17 +33,30 @@ function Oz:OnEvent(event, arg1)
 	if event == "CHAT_MSG_MONSTER_YELL" then
 		if arg1 == DBM_OZ_YELL_ROAR then
 			self:Announce(DBM_OZ_WARN_ROAR, 2);
+            self:StartStatusBarTimer(9, "Strawman", "Interface\\Icons\\INV_Helmet_34");
 		elseif arg1 == DBM_OZ_YELL_STRAWMAN then
 			self:Announce(DBM_OZ_WARN_STRAWMAN, 2);
+            self:StartStatusBarTimer(13, "Tinhead", "Interface\\Icons\\INV_Helmet_02");
 		elseif arg1 == DBM_OZ_YELL_TINHEAD then
 			self:Announce(DBM_OZ_WARN_TINHEAD, 2);
 		elseif arg1 == DBM_OZ_YELL_CRONE then
 			self:Announce(DBM_OZ_WARN_CRONE, 3);
+            self:StartStatusBarTimer(9, "The Crone", "Interface\\Icons\\INV_Helmet_34");
 			if self.Options.RangeCheck then
 				DBM_Gui_DistanceFrame_Show();
 			end
+            
+        elseif arg1 == DBM_OZ_DIED_DOROTHEE then
+            self:EndStatusBarTimer("Tito")
+        elseif arg1 == DBM_OZ_DIED_ROAR then
+            
+        elseif arg1 == DBM_OZ_DIED_STRAWMAN then
+            
+        elseif arg1 == DBM_OZ_DIED_TINHEAD then
+            
 		end
-		
+    elseif event == "NextRoar" then
+        self:StartStatusBarTimer(6.5, "Roar", "Interface\\Icons\\Ability_Druid_ChallangingRoar");
 	elseif event == "SPELL_CAST_START" then
 		if arg1.spellId == 31014 then
 			if not self:GetStatusBarTimerTimeLeft("Tito") then

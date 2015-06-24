@@ -1,4 +1,4 @@
-﻿-- DBM_Karazhan _must_ be nil if the client language is not support - a default (=english) value will cause errors
+-- DBM_Karazhan _must_ be nil if the client language is not support - a default (=english) value will cause errors
 if GetLocale() == "enGB" or GetLocale() == "enUS" then
 	DBM_KARAZHAN		= "Karazhan";
 end
@@ -14,7 +14,9 @@ DBM_ATH_WARN_CURSE		= "*** Curse ***";
 DBM_ATH_CURSE_SOON		= "*** Curse soon ***";
 
 DBM_ATH_MIDNIGHT		= "Midnight";
-DBM_ATH_YELL_1			= "Come Midnight, let's disperse this petty rabble!";
+DBM_ATH_YELL_1			= "Come, Midnight, let's disperse this petty rabble!";
+DBM_ATH_YELL_P2_1       = "Cowards! Wretches!"
+DBM_ATH_YELL_P2_2       = "Who dares attack the steed of the Huntsman?"
 
 
 --Moroes
@@ -30,7 +32,9 @@ DBM_MOROES_VANISH_FADED	= "*** Vanish faded ***";
 DBM_MOROES_VANISH_SOON	= "*** Vanish in 5 sec ***";
 DBM_MOROES_GARROTE_WARN	= "*** Garrote on >%s< ***";
 
-DBM_MOROES_YELL_START	= "Hm, unannounced visitors. Preparations must be made...";
+DBM_MOROES_YELL_START	= "Hmm, unannounced visitors? Preparations must be made.";
+DBM_MOROES_YELL_BACK1   = "You rang?";
+DBM_MOROES_YELL_BACK2   = "Now, where was I? Oh yes...";
 
 
 
@@ -41,13 +45,14 @@ DBM_MOV_DESCRIPTION		= "Provides a timer for Repentance, shows a warning for Hol
 DBM_MOV_OPTION_1		= "Show range check frame";
 DBM_MOV_OPTION_2		= "Announce Holy Fire";
 
-DBM_MOV_YELL_PULL		= "Your behavior will not be tolerated.";
+DBM_MOV_YELL_PULL		= "Your behavior will not be tolerated!";
 DBM_MOV_YELL_REP_1		= "Cast out your corrupt thoughts.";
 DBM_MOV_YELL_REP_2		= "Your impurity must be cleansed.";
 DBM_MOV_WARN_REP		= "*** Repentance ***";
 DBM_MOV_WARN_REP_SOON	= "*** Repentance soon ***";
 
 DBM_MOV_WARN_HOLYFIRE	= "*** Holy Fire on >%s< ***";
+DBM_MOV_WARN_HOLYFIRE_SOON = "*** Holy Fire soon ***";
 
 
 
@@ -57,6 +62,7 @@ DBM_RJ_DESCRIPTION		= "Announces Romulo's Daring and Julianne's Devotion.";
 DBM_RJ_OPTION_1			= "Announce Julianne's heal";
 DBM_RJ_OPTION_2			= "Announce Poisoned Thrust";
 
+DBM_RJ_TRIGGER          = "What devil art thou, that dost torment me thus?"
 DBM_RJ_DARING_WARN		= "*** Romulo gains Daring ***";
 DBM_RJ_DEVOTION_WARN	= "*** Julianne gains Devotion ***";
 DBM_RJ_HEAL_WARN		= "*** Heal ***";
@@ -73,7 +79,7 @@ DBM_BBW_DESCRIPTION		= "Announces and shows a timer for \"Little Red Riding Hood
 DBM_BBW_OPTION_1		= "Announce fear";
 DBM_BBW_OPTION_2		= "Send whisper";
 
-DBM_BBW_YELL_1			= "The better to own you with!";
+DBM_BBW_YELL_1			= "All the better to own you with!";
 DBM_BBW_FEAR_EXP		= "Terrifying Howl";
 
 DBM_BBW_FEAR_WARN		= "*** Fear ***";
@@ -99,7 +105,7 @@ DBM_TI_NAME				= "Terestian Illhoof";
 DBM_TI_DESCRIPTION		= "Announces Demonic Chains and weakened phases.";
 DBM_TI_OPTION_1			= "Announce imp respawn";
 
-DBM_TI_YELL_PULL		= "Ah, you're just in time. The rituals are about to begin!";
+DBM_TI_YELL_PULL		= "Ah, you're just in time. The rituals are about to begin.";
 DBM_TI_SACRIFICE		= "([^%s]+) (%w+) afflicted by Sacrifice%.";
 DBM_TI_EMOTE_IMP		= "%s shrieks in pain and points at his master.";
 DBM_TI_CAST_IMP			= "Terestian Illhoof casts Summon Imp.";
@@ -114,6 +120,10 @@ DBM_TI_IMP_RESPAWNED	= "*** Imp respawned ***";
 -- Shade of Aran
 DBM_ARAN_NAME			= "Shade of Aran";
 DBM_ARAN_DESCRIPTION	= "Announces Flame Wreath and Arcane Explosion.";
+
+DBM_ARAN_YELL_PULL1     = "I will not be tortured again!"
+DBM_ARAN_YELL_PULL2     = "Who are you? What do you want?! Stay away from me!"
+DBM_ARAN_YELL_PULL3     = "Please, no more! My son... he's gone mad!"
 
 DBM_ARAN_CAST_WREATH	= "Shade of Aran begins to cast Flame Wreath.";
 DBM_ARAN_CAST_AE		= "Shade of Aran begins to cast Arcane Explosion.";
@@ -158,7 +168,8 @@ DBM_PRINCE_OPTION_5		= "Announce Infernal";
 
 DBM_PRINCE_YELL_PULL	= "Madness has brought you here to me. I shall be your undoing!";
 DBM_PRINCE_YELL_P2		= "Simple fools! Time is the fire in which you'll burn!";
-DBM_PRINCE_YELL_P3		= "How can you hope to stand against such overwhelming power?";
+--DBM_PRINCE_YELL_P3		= "How can you hope to stand against such overwhelming power?";
+DBM_PRINCE_YELL_P3      = "I see the subtlety of conception is beyond primitives such as you."
 DBM_PRINCE_YELL_INF1	= "All realities, all dimensions are open to me!";
 DBM_PRINCE_YELL_INF2	= "You face not Malchezaar alone, but the legions I command!";
 
@@ -203,12 +214,17 @@ DBM_OZ_DESCRIPTION		= "Announces the spawn of Roar, Strawman, Tinhead and The Cr
 DBM_OZ_OPTION_1			= "Show range check frame in phase 2";
 
 DBM_OZ_CRONE_NAME		= "The Crone";
-DBM_OZ_YELL_DOROTHEE	= "Oh Tito, we simply must find a way home! The old wizard could be our only hope! Strawman, Roar, Tinhead, will you - wait... oh golly, look we have visitors!";
-DBM_OZ_YELL_ROAR		= "I'm not afraid a' you! Do you wanna' fight? Huh, do ya'? C'mon! I'll fight ya' with both paws behind my back!";
+DBM_OZ_YELL_DOROTHEE	= "Oh dear, we simply must find a way home! The old wizard could be our only hope! Strawman, Roar, Tinhead, will you... wait! Oh golly, look! We have visitors!";
+DBM_OZ_YELL_ROAR		= "Wanna fight? Huh? Do ya? C'mon, I'll fight you with both claws behind my back!";
 DBM_OZ_YELL_STRAWMAN	= "Now what should I do with you? I simply can't make up my mind.";
 DBM_OZ_YELL_TINHEAD		= "I could really use a heart. Say, can I have yours?";
 DBM_OZ_YELL_TITO		= "Don't let them hurt us Tito! Oh, you won't, will you?";
-DBM_OZ_YELL_CRONE		= "Woe to each and every one of you, my pretties!";
+DBM_OZ_YELL_CRONE		= "It will all be over soon! <cackles>";
+
+DBM_OZ_DIED_DOROTHEE    = "Oh at last, at last. I can go home."
+DBM_OZ_DIED_ROAR        = "You didn't have to go and do that."
+DBM_OZ_DIED_STRAWMAN    = "Don't let them make a mattress... out of me."
+DBM_OZ_DIED_TINHEAD     = "Back to being an old rustbucket."
 
 DBM_OZ_WARN_TITO		= "*** Tito ***";
 DBM_OZ_WARN_ROAR		= "*** Roar ***";

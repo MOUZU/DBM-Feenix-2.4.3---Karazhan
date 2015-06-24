@@ -1,13 +1,14 @@
 local Attumen = DBM:NewBossMod("Attumen", DBM_ATH_NAME, DBM_ATH_DESCRIPTION, DBM_KARAZHAN, DBM_KARAZHAN_TAB, 1);
 
-Attumen.Version			= "1.0";
-Attumen.Author			= "Tandanu";
+Attumen.Version			= "1.1";
+Attumen.Author			= "LYQ";
 Attumen.LastCurse		= 0;
 Attumen.Phase			= 1;
 
 Attumen:AddOption("PreWarning", false, DBM_ATH_OPTION_1)
 
 Attumen:AddBarOption("Curse")
+Attumen:AddBarOption("Charge")
 
 Attumen:RegisterEvents(
 	"SPELL_AURA_APPLIED",	
@@ -33,6 +34,14 @@ function Attumen:OnEvent(event, arg1)
 			self.Phase = 2;
 			self:UnScheduleSelf("CurseWarning", 5);
 			self:EndStatusBarTimer("Curse");
+            self:ScheduleSelf(2, "Charge");
+            self:ScheduleSelf(17, "CurseWarning", 5);
+            self:Announce("*** Last Phase ***", 2);
+            
+        elseif arg1 == DBM_ATH_YELL_P2_1 or arg1 == DBM_ATH_YELL_P2_2 then
+            -- attumen spawned
+            self:Announce("*** Attumen spawned ***", 1);
+            self:StartStatusBarTimer(30, "Curse", "Interface\\Icons\\Spell_Holy_SenseUndead");
 		end
 		
 	elseif event == "SPELL_AURA_APPLIED" then
@@ -42,13 +51,11 @@ function Attumen:OnEvent(event, arg1)
 			self:Announce(DBM_ATH_WARN_CURSE, 2);
 			self.LastCurse = GetTime();
 			
-			if self.Phase == 2 then
-				self:StartStatusBarTimer(41, "Curse", "Interface\\Icons\\Spell_Holy_SenseUndead");
-				self:ScheduleSelf(36, "CurseWarning", 5);
-			else
-				self:StartStatusBarTimer(31, "Curse", "Interface\\Icons\\Spell_Holy_SenseUndead");
-				self:ScheduleSelf(26, "CurseWarning", 5);
-			end
+            self:StartStatusBarTimer(31, "Curse", "Interface\\Icons\\Spell_Holy_SenseUndead");
+            self:ScheduleSelf(26, "CurseWarning", 5);
 		end
-	end
+    elseif event == "Charge" then
+        self:StartStatusBarTimer(20, "Charge", "Interface\\Icons\\Ability_Warrior_Charge");
+        self:ScheduleSelf(20, "Charge");
+    end
 end

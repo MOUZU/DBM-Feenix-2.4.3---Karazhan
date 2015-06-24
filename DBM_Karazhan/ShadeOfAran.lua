@@ -1,7 +1,6 @@
 local Aran = DBM:NewBossMod("Aran", DBM_ARAN_NAME, DBM_ARAN_DESCRIPTION, DBM_KARAZHAN, DBM_KARAZHAN_TAB, 10);
---Edit by Nightkiller@¤é¸¨ªh¿A(kc10577@¤Ú«¢;Azael)
-Aran.Version		= "1.0";
-Aran.Author			= "Tandanu";
+Aran.Version		= "1.1";
+Aran.Author			= "LYQ";
 
 Aran:RegisterEvents(
 	"SPELL_CAST_START",
@@ -14,8 +13,14 @@ Aran:RegisterCombat("COMBAT");
 Aran:AddBarOption("Flame Wreath Cast")
 Aran:AddBarOption("Flame Wreath")
 Aran:AddBarOption("Arcane Explosion")
+Aran:AddBarOption("Next Arcane Explosion")
 Aran:AddBarOption("Blizzard")
 Aran:AddBarOption("Elementals despawn in")
+
+function Aran:OnCombatStart()
+	self:StartStatusBarTimer(30, "Next Arcane Explosion", "Interface\\Icons\\Spell_Nature_WispSplode");
+    self:StartStatusBarTimer(82, "Next Flame Wreath", "Interface\\Icons\\Spell_Holy_InnerFire");
+end
 
 function Aran:OnEvent(event, arg1)
 	if event == "SPELL_CAST_START" then
@@ -26,6 +31,7 @@ function Aran:OnEvent(event, arg1)
 		elseif arg1.spellId == 29973 then
 			self:Announce(DBM_ARAN_AE_WARN, 2);
 			self:StartStatusBarTimer(10, "Arcane Explosion", "Interface\\Icons\\Spell_Nature_WispSplode");
+			self:ScheduleSelf(10,"NextAE")
 		end
 	elseif event == "CHAT_MSG_MONSTER_YELL" or event == "CHAT_MSG_MONSTER_SAY" then
 		if arg1 == DBM_ARAN_YELL_BLIZZ1 or arg1 == DBM_ARAN_YELL_BLIZZ2 then
@@ -41,8 +47,12 @@ function Aran:OnEvent(event, arg1)
 		self:AddSpecialWarning(DBM_ARAN_DO_NOT_MOVE);
 		self:Announce(DBM_ARAN_DO_NOT_MOVE, 1);
 		self:StartStatusBarTimer(20.5, "Flame Wreath", "Interface\\Icons\\Spell_Holy_InnerFire");
-		
+        self:ScheduleEvent(20.5,"NextFlameWreath")
+    elseif event == "NextFlameWreath" then
+        self:StartStatusBarTimer(75, "Next Flame Wreath", "Interface\\Icons\\Spell_Holy_InnerFire");
 	elseif event == "Blizzard" then
 		self:StartStatusBarTimer(40, "Blizzard", "Interface\\Icons\\Spell_Frost_IceStorm");
+	elseif event == "NextAE" then
+		self:StartStatusBarTimer(70, "Next Arcane Explosion", "Interface\\Icons\\Spell_Nature_WispSplode");
 	end
 end

@@ -1,4 +1,4 @@
-﻿if GetLocale() == "deDE" then
+if GetLocale() == "deDE" then
 	--Attumen
 	DBM_ATH_NAME			= "Attumen der Jäger";
 	DBM_ATH_DESCRIPTION		= "Zeigt einen Timer für seinen Fluch.";
@@ -51,6 +51,7 @@
 		
 	DBM_MOV_DEBUFF_HOLYFIRE	= "([^%s]+) (%w+) von Heiliges Feuer betroffen%.";
 	DBM_MOV_WARN_HOLYFIRE	= "*** Heiliges Feuer auf >%s< ***";
+    DBM_MOV_WARN_HOLYFIRE_SOON = "*** Heiliges Feuer bald ***";
 
 
 	-- Romulo and Julianne

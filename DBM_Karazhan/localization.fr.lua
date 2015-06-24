@@ -1,4 +1,4 @@
-﻿if ( GetLocale() == "frFR" ) then
+if ( GetLocale() == "frFR" ) then
 	--Attumen
 	DBM_ATH_NAME			= "Attumen le Veneur";
 	DBM_ATH_DESCRIPTION		= "Affiche un timer pour sa malédiction.";
@@ -45,6 +45,7 @@
 	
 	DBM_MOV_DEBUFF_HOLYFIRE	= "([^%s]+) (%w+) les effets %w+ Flammes sacrées.";
 	DBM_MOV_WARN_HOLYFIRE	= "*** Flammes sacrées sur >%s< ***";
+    DBM_MOV_WARN_HOLYFIRE_SOON = "*** Holy Fire soon ***";
 
 
 	-- Romulo and Julianne

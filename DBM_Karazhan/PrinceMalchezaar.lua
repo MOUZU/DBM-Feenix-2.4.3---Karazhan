@@ -1,7 +1,7 @@
 local Prince = DBM:NewBossMod("Prince", DBM_PRINCE_NAME, DBM_PRINCE_DESCRIPTION, DBM_KARAZHAN, DBM_KARAZHAN_TAB, 12);
 
-Prince.Version			= "1.0";
-Prince.Author			= "Tandanu";
+Prince.Version			= "1.1";
+Prince.Author			= "LYQ";
 Prince.Infernals 		= 0;
 Prince.Phase			= 1;
 Prince.LastEnfeeble		= 0;
@@ -21,13 +21,18 @@ Prince:AddOption("WarnSWP", true, DBM_PRINCE_OPTION_4);
 Prince:AddOption("WarnInfernal", true, DBM_PRINCE_OPTION_5);
 
 Prince:AddBarOption("Infernal")
+Prince:AddBarOption("Infernal Incoming")
 Prince:AddBarOption("Enfeeble")
+Prince:AddBarOption("Next Enfeeble")
 Prince:AddBarOption("Shadow Nova")
+Prince:AddBarOption("Next Shadow Nova")
 
 function Prince:OnCombatStart(delay)
 	Prince.Infernals 		= 0;
 	Prince.Phase			= 1;
-	self:StartStatusBarTimer(40 - delay, "Infernal", "Interface\\Icons\\Spell_Shadow_SummonInfernal");
+	self:StartStatusBarTimer(45 - delay, "Infernal", "Interface\\Icons\\Spell_Shadow_SummonInfernal");
+    self:StartStatusBarTimer(34 - delay, "Next Shadow Nova", "Interface\\Icons\\Spell_Shadow_Shadowfury");
+    self:StartStatusBarTimer(30 - delay, "Next Enfeeble", "Interface\\Icons\\Spell_Shadow_LifeDrain02");
 end
 
 function Prince:OnCombatEnd()
@@ -48,6 +53,7 @@ function Prince:OnEvent(event, arg1)
 						self:Announce(DBM_PRINCE_WARN_ENFEEBLE, 3);
 					end
 					self:StartStatusBarTimer(8, "Enfeeble", "Interface\\Icons\\Spell_Shadow_LifeDrain02")
+                    self:ScheduleSelf(8, "NextEnfeeble");
 					self.LastEnfeeble = GetTime();
 				end
 			end
@@ -62,25 +68,20 @@ function Prince:OnEvent(event, arg1)
 				self:Announce(DBM_PRINCE_WARN_NOVA, 3);
 			end
 			self:StartStatusBarTimer(2, "Shadow Nova", "Interface\\Icons\\Spell_Shadow_Shadowfury");
+            self:ScheduleSelf(2, "NextShadowNova");
 		end
 	elseif event == "CHAT_MSG_MONSTER_YELL" then
 		if arg1 == DBM_PRINCE_YELL_INF1 or arg1 == DBM_PRINCE_YELL_INF2 then
-			self:ScheduleSelf(11.5, "InfernalSoon");
-			self:ScheduleSelf(18.5, "Infernal");
-			
-			if not self:GetStatusBarTimerTimeLeft("Infernal") then
-				self:StartStatusBarTimer(45, "Infernal", "Interface\\Icons\\Spell_Shadow_SummonInfernal");
-			end
-			
-			if self.Phase == 1 then
-				self:UpdateStatusBarTimer("Infernal", 26.5, 45);
-			elseif self.Phase == 3 then			
-				self:UpdateStatusBarTimer("Infernal", 4, 22.5);
-			end
-		
+            self:EndStatusBarTimer("Infernal")
+			self:StartStatusBarTimer(4, "Infernal Incoming", "Interface\\Icons\\Spell_Shadow_SummonInfernal");
+            self:ScheduleSelf(4,"Infernal")
 		elseif arg1 == DBM_PRINCE_YELL_P3 then
 			self.Phase = 3;
 			self:Announce(string.format(DBM_PRINCE_WARN_PHASE, 3), 1);
+            self:EndStatusBarTimer("Next Enfeeble")
+            self:EndStatusBarTimer("Infernal")
+            self:UnScheduleSelf("Infernal")
+            self:StartStatusBarTimer(15, "Infernal", "Interface\\Icons\\Spell_Shadow_SummonInfernal");
 		elseif arg1 == DBM_PRINCE_YELL_P2 then
 			self:Announce(string.format(DBM_PRINCE_WARN_PHASE, 2), 1);
 		end
@@ -97,7 +98,11 @@ function Prince:OnEvent(event, arg1)
 		if self.Phase == 1 then			
 			self:StartStatusBarTimer(45, "Infernal", "Interface\\Icons\\Spell_Shadow_SummonInfernal");
 		elseif self.Phase == 3 then			
-			self:StartStatusBarTimer(22.5, "Infernal", "Interface\\Icons\\Spell_Shadow_SummonInfernal");
+			self:StartStatusBarTimer(11, "Infernal", "Interface\\Icons\\Spell_Shadow_SummonInfernal");
 		end
+    elseif event == "NextShadowNova" then
+        self:StartStatusBarTimer(28, "Next Shadow Nova", "Interface\\Icons\\Spell_Shadow_Shadowfury");
+    elseif event == "NextEnfeeble" then
+        self:StartStatusBarTimer(22, "Next Enfeeble", "Interface\\Icons\\Spell_Shadow_LifeDrain02");
 	end
 end
